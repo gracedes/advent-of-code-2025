@@ -11,26 +11,34 @@ fn main() -> io::Result<()> {
     let reader = BufReader::new(input);
 
     for line in reader.lines() {
-        if turn(&mut n, line?) {
-            x += 1;
-        }
+        x.add_assign(turn(&mut n, line?));
     }
 
     println!("the password is: {x}");
     Ok(())
 }
 
-fn turn(n: &mut i32, s: String) -> bool {
+fn turn(n: &mut i32, s: String) -> i32 {
     let first_char = s.chars().nth(0).unwrap();
+    let t = &mut s[1..].parse::<i32>().unwrap();
+    let mut dx = 0;
 
-    if first_char == 'L' {
-        n.sub_assign(&s[1..].parse::<i32>().unwrap());
-    }
-    else {
-        n.add_assign(&s[1..].parse::<i32>().unwrap());
+    while *t > 0 {
+        if first_char == 'L' {
+            n.sub_assign(1);
+        }
+        else {
+            n.add_assign(1);
+        }
+
+        if modulo(*n, 100) == 0 {
+            dx += 1;
+        }
+
+        t.sub_assign(1);
     }
 
-    modulo(*n, 100) == 0
+    dx
 }
 
 fn modulo(a: i32, b: i32) -> i32 {
