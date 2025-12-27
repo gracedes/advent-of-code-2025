@@ -12,7 +12,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let lower_bound: u64 = bounds[0].parse().unwrap();
         let upper_bound: u64 = bounds[1].trim().parse().unwrap();
         
-        for i in lower_bound..(upper_bound + 1) {
+        for i in lower_bound..=upper_bound {
             if invalid(i) { acc += i }
         }
     }
